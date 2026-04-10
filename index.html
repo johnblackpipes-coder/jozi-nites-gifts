@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Gift for Nthabbi - Jozi Nites</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body { box-sizing: border-box; }
+    .gift-box {
+      transition: all 0.6s ease;
+    }
+    .gift-lid {
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    .opened .gift-lid {
+      transform: translateY(-80px) rotate(-8deg);
+    }
+    .certificate {
+      transition: all 1s ease;
+      opacity: 0;
+      transform: scale(0.8) translateY(50px);
+    }
+    .opened .certificate {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .shine-overlay {
+      position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .certificate:hover .shine-overlay { opacity: 1; }
+    canvas#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 200; }
+  </style>
+</head>
+<body class="h-full bg-gradient-to-br from-[#0a0a0a] via-[#1a0a14] to-[#0f0f2d] flex items-center justify-center p-6 overflow-hidden">
+  <canvas id="confetti-canvas"></canvas>
+
+  <div id="gift-screen" class="text-center max-w-md w-full">
+    <div class="gift-box mx-auto mb-8" id="gift-box">
+      <!-- Gift Box Visual (using emoji + CSS for simplicity and speed - looks rich) -->
+      <div class="relative w-64 h-64 mx-auto">
+        <!-- Box body -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-40 bg-gradient-to-b from-[#c9a84c] to-[#8a6914] rounded-xl shadow-2xl border-4 border-[#f5d76e]"></div>
+        <!-- Lid -->
+        <div id="lid" class="gift-lid absolute top-6 left-1/2 -translate-x-1/2 w-60 h-20 bg-gradient-to-b from-[#f5d76e] to-[#c9a84c] rounded-t-xl shadow-xl border-4 border-[#f5d76e] flex items-center justify-center">
+          <div class="w-12 h-1.5 bg-[#8a1538] rounded-full"></div>
+        </div>
+        <!-- Ribbon -->
+        <div class="absolute top-12 left-1/2 -translate-x-1/2 w-8 h-40 bg-[#8a1538] z-10"></div>
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-40 h-8 bg-[#6b102c] z-10 rotate-12"></div>
+        <!-- Bow -->
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 text-6xl">🎀</div>
+      </div>
+    </div>
+
+    <h1 class="text-4xl font-bold text-white mb-2 tracking-wide">A Special Gift</h1>
+    <p class="text-[#c9a84c] text-lg mb-8">For Nthabbi from Jozi Nites</p>
+
+    <button onclick="unwrapGift()" 
+            class="bg-gradient-to-r from-[#8a1538] to-[#c9a84c] hover:from-[#6b102c] hover:to-[#f5d76e] text-white font-semibold text-xl px-10 py-4 rounded-2xl shadow-xl transition-all active:scale-95 flex items-center gap-3 mx-auto">
+      <span>Unwrap Certificate</span>
+      <span class="text-2xl">🎁</span>
+    </button>
+
+    <p class="text-xs text-[#6b5a3e] mt-10">Tap the button to reveal the surprise ✨</p>
+  </div>
+
+  <!-- The Certificate (hidden until unwrapped) -->
+  <div id="certificate-screen" class="certificate hidden max-w-[700px] w-full">
+    <div class="gold-border relative" style="background: linear-gradient(170deg, #fdfaf3 0%, #f7f0e0 40%, #f2e8d0 100%); padding: 48px 56px; border-radius: 4px; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <div class="shine-overlay" id="shine"></div>
+
+      <!-- Corner ornaments -->
+      <svg class="absolute top-3 left-3 opacity-20" width="60" height="60" viewBox="0 0 60 60"><path d="M0 0 Q30 5 55 0 Q50 30 55 55 Q25 50 0 55 Q5 25 0 0Z" fill="none" stroke="#c9a84c" stroke-width="1.5"/></svg>
+      <svg class="absolute top-3 right-3 opacity-20" width="60" height="60" viewBox="0 0 60 60" style="transform:scaleX(-1)"><path d="M0 0 Q30 5 55 0 Q50 30 55 55 Q25 50 0 55 Q5 25 0 0Z" fill="none" stroke="#c9a84c" stroke-width="1.5"/></svg>
+      <svg class="absolute bottom-3 left-3 opacity-20" width="60" height="60" viewBox="0 0 60 60" style="transform:scaleY(-1)"><path d="M0 0 Q30 5 55 0 Q50 30 55 55 Q25 50 0 55 Q5 25 0 0Z" fill="none" stroke="#c9a84c" stroke-width="1.5"/></svg>
+      <svg class="absolute bottom-3 right-3 opacity-20" width="60" height="60" viewBox="0 0 60 60" style="transform:scale(-1,-1)"><path d="M0 0 Q30 5 55 0 Q50 30 55 55 Q25 50 0 55 Q5 25 0 0Z" fill="none" stroke="#c9a84c" stroke-width="1.5"/></svg>
+
+      <div class="text-center relative z-10">
+        <img src="https://github.com/johnblackpipes-coder/JoziNites_Links/blob/main/Jozi%20Nites%20Logo.png.png?raw=true" 
+             alt="Jozi Nites Logo" style="height: 110px; margin: 0 auto 16px; object-fit: contain;">
+
+        <p class="uppercase tracking-[0.35em] text-xs" style="color:#8a6914; font-family:'Poppins',sans-serif; font-weight:600;">Presented by</p>
+        <h2 id="team-name-el" style="font-family:'Anton',sans-serif; font-size:22px; color:#1a0a14; letter-spacing:0.08em;">JOZI NITES</h2>
+
+        <h1 class="uppercase tracking-[0.2em] mt-6" style="font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; color:#6b5a3e;">Certificate of</h1>
+        <h1 style="font-family:'Anton',sans-serif; font-size:38px; color:#1a0a14;">APPRECIATION</h1>
+
+        <div class="my-6">
+          <p style="font-family:'Poppins',sans-serif; font-size:15px; color:#6b5a3e; font-style:italic;">This award is proudly presented to</p>
+          <h2 id="recipient-el" style="font-family:'Great Vibes',cursive; font-size:52px; color:#8a1538; line-height:1.1;">Nthabbi</h2>
+        </div>
+
+        <p id="message-el" style="font-family:'Poppins',sans-serif; font-size:16px; color:#3d2e1e; line-height:1.7; max-width:480px; margin:0 auto;">
+          In heartfelt recognition of your exemplary work, amazing photography, stunning outfits, and captivating content. Your creative vision and dedication have truly elevated our team and inspired everyone around you.
+        </p>
+
+        <div class="flex items-end justify-center gap-12 mt-10">
+          <div class="text-center">
+            <div style="width:120px; height:1px; background:#c9a84c; margin-bottom:6px;"></div>
+            <p style="font-family:'Poppins',sans-serif; font-size:12px; color:#6b5a3e;">THE TEAM</p>
+          </div>
+          <div class="seal w-20 h-20 bg-gradient-to-br from-[#f5d76e] to-[#c9a84c] rounded-full flex items-center justify-center shadow-xl relative">
+            <i data-lucide="award" class="text-white w-9 h-9"></i>
+          </div>
+          <div class="text-center">
+            <div style="width:120px; height:1px; background:#c9a84c; margin-bottom:6px;"></div>
+            <p id="date-el" style="font-family:'Poppins',sans-serif; font-size:12px; color:#6b5a3e;"></p>
+          </div>
+        </div>
+
+        <a href="https://www.jozinites.co.za" target="_blank" class="block mt-8 text-[#8a1538] font-semibold">www.jozinites.co.za</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const d = new Date();
+    document.getElementById('date-el').textContent = d.toLocaleDateString('en-ZA', { year:'numeric', month:'long', day:'numeric' });
+    lucide.createIcons();
+
+    function unwrapGift() {
+      document.getElementById('gift-screen').classList.add('hidden');
+      const certScreen = document.getElementById('certificate-screen');
+      certScreen.classList.remove('hidden');
+      document.body.classList.add('opened');
+
+      // Big confetti burst
+      megaBurst();
+      setTimeout(megaBurst, 400);
+    }
+
+    // Confetti (same powerful engine)
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const COLORS = ['#c9a84c','#f5d76e','#8a1538','#e8437f','#fff','#ffd93d'];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    function createParticle(x, y) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 14;
+      return { x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed - 5, color: COLORS[Math.floor(Math.random()*COLORS.length)], size: 4+Math.random()*8, rotation: Math.random()*360, rotSpeed: (Math.random()-0.5)*15, life: 1, decay: 0.004 };
+    }
+
+    function burst(x, y, count) {
+      for (let i = 0; i < count; i++) particles.push(createParticle(x, y));
+    }
+
+    function megaBurst() {
+      const w = canvas.width, h = canvas.height;
+      burst(w*0.5, h*0.4, 220);
+      burst(w*0.3, h*0.6, 80);
+      burst(w*0.7, h*0.6, 80);
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length-1; i >= 0; i--) {
+        const p = particles[i];
+        p.vy += 0.18; p.x += p.vx; p.y += p.vy; p.rotation += p.rotSpeed; p.life -= p.decay;
+        if (p.life <= 0) { particles.splice(i,1); continue; }
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+        ctx.restore();
+      }
+      requestAnimationFrame(animateConfetti);
+    }
+    animateConfetti();
+
+    // Tilt on certificate
+    const cert = document.querySelector('.certificate');
+    if (cert) {
+      cert.addEventListener('mousemove', e => {
+        const r = cert.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        const rotY = (x - 0.5) * 18;
+        const rotX = (0.5 - y) * 14;
+        cert.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+      });
+      cert.addEventListener('mouseleave', () => cert.style.transform = '');
+    }
+  </script>
+</body>
+</html>
